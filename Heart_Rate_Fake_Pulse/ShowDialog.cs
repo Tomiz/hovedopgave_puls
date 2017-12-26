@@ -16,5 +16,13 @@ namespace Heart_Rate_Fake_Pulse
         {
             InitializeComponent();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ShowDialog _frm2 = new ShowDialog();
+            _frm2.Close();
+            //Form1.AttackStopped();
+
+        }
     }
 }

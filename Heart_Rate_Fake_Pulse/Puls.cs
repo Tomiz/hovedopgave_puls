@@ -7,8 +7,15 @@ using System.Windows.Forms;
 
 namespace Heart_Rate_Fake_Pulse
 {
-    class YourDoctorWatchesYou : Heart_Rate_Fake_Pulse.Form1
+    public class Puls
     {
-        
+        public int HeartRate { get; set; }
+
+        public Puls(int heartRate)
+        {
+            HeartRate = heartRate;
+        }
+
+
     }
 }
