@@ -19,7 +19,6 @@ namespace Heart_Rate_Fake_Pulse
 {
     public partial class Form1 : Form, IPuls, IMsg, IMonitor
     {
-
         #region Interface Members
         // IPuls
         public Label Heart_Rate { get; set; }
@@ -33,7 +32,7 @@ namespace Heart_Rate_Fake_Pulse
         #endregion
 
         #region private properties
-        private readonly ShowDialog _frm2 = new ShowDialog();
+        private ShowDialog _frm2 = new ShowDialog();
         private bool sleep_button_clicked = false;
         private bool standard_button_clicked = false;
         private bool training_button_clicked = false;
@@ -51,14 +50,16 @@ namespace Heart_Rate_Fake_Pulse
         public void timerPuls_Tick(object sender, EventArgs e)
         {
             Heart_Rate = HeartRate;
+            Random random_HeartRate = new Random();
+            int puls;
 
             if (sleep_button_clicked == true)
             {
                 // sleep puls
-                Random sleep_puls = new Random();
+                //Random sleep_puls = new Random();
                 // Or whatever limits you want... Next() returns a double
-                int sleep = sleep_puls.Next(47, 53);
-                Heart_Rate.Text = sleep.ToString();
+                puls = random_HeartRate.Next(47, 53);
+                Heart_Rate.Text = puls.ToString();
 
                 PulsMonitor();
                 Sleep = true;
@@ -66,10 +67,10 @@ namespace Heart_Rate_Fake_Pulse
             if (standard_button_clicked == true)
             {
                 // sleep puls
-                Random normal_puls = new Random();
+                //Random normal_puls = new Random();
                 // Or whatever limits you want... Next() returns a double
-                int normal = normal_puls.Next(57, 63);
-                Heart_Rate.Text = normal.ToString();
+                puls = random_HeartRate.Next(57, 63);
+                Heart_Rate.Text = puls.ToString();
 
                 PulsMonitor();
                 Normal = true;
@@ -77,10 +78,10 @@ namespace Heart_Rate_Fake_Pulse
             if (training_button_clicked == true)
             {
                 // sleep puls
-                Random training_puls = new Random();
+                //Random training_puls = new Random();
                 // Or whatever limits you want... Next() returns a double
-                int training = training_puls.Next(80, 90);
-                Heart_Rate.Text = training.ToString();
+                puls = random_HeartRate.Next(80, 90);
+                Heart_Rate.Text = puls.ToString();
 
                 PulsMonitor();
                 Training = true;
@@ -89,52 +90,22 @@ namespace Heart_Rate_Fake_Pulse
             if (attack_button_clicked == true)
             {
                 // sleep puls
-                Random attack_puls = new Random();
+                //Random attack_puls = new Random();
                 // Or whatever limits you want... Next() returns a double
-                int attack = attack_puls.Next(110, 150);
-                Heart_Rate.Text = attack.ToString();
+                puls = random_HeartRate.Next(110, 150);
+                Heart_Rate.Text = puls.ToString();
 
                 PulsMonitor();
                 Attack = true;
 
-
-                if (attack >= 146)
+                if (puls >= 135)
                 {
-                    _frm2.Show();
+                    _frm2.Visible = true;
                     timerAttack.Enabled = true;
 
                     Heart_Rate.Text = @"Attack";
                     attack_button_clicked = false;
                 }
-                //timerPuls.Interval = 5000;
-                //timerAttack.Enabled = true;
-                //if (timerPuls.Interval >= 5000 && timerAttack.Enabled == true)
-                //{
-                //    ShowDialog frm2 = new ShowDialog();
-                //    frm2.Show();
-                //}
-            }
-        }
-
-        public void PulsMonitor()
-        {
-            Msg = label_msg;
-
-            if (Sleep)
-            {
-                Msg.Text = @"Sove Puls";
-            }
-            if (Normal)
-            {
-                Msg.Text = @"Normal Puls";
-            }
-            if (Training)
-            {
-                Msg.Text = @"Aktiv Puls";
-            }
-            if (Attack)
-            {
-                Msg.Text = @"Anfald";
             }
         }
 
@@ -171,10 +142,40 @@ namespace Heart_Rate_Fake_Pulse
             timerAttack.Enabled = false;
         }
 
-        private void timerAttack_Tick(object sender, EventArgs e)
+        public void timerAttack_Tick(object sender, EventArgs e)
         {
-            _frm2.Hide();
-            SendSms();
+            if (_frm2.Visible == true)
+            {
+                SendSms();
+                _frm2.Visible = false;
+            }
+            else if (_frm2.Visible == false)
+            {
+                timerAttack.Stop();
+            }
+            
+        }
+
+        public void PulsMonitor()
+        {
+            Msg = label_msg;
+
+            if (Sleep)
+            {
+                Msg.Text = @"Sove Puls";
+            }
+            if (Normal)
+            {
+                Msg.Text = @"Normal Puls";
+            }
+            if (Training)
+            {
+                Msg.Text = @"Aktiv Puls";
+            }
+            if (Attack)
+            {
+                Msg.Text = @"Anfald";
+            }
         }
         #endregion
 
@@ -221,7 +222,5 @@ namespace Heart_Rate_Fake_Pulse
             HeartRate.Text = "Puls";
         }
         #endregion
-
-        
     }
 }

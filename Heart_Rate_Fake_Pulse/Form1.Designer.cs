@@ -147,7 +147,7 @@
         private System.Windows.Forms.Button button_stop;
         public System.Windows.Forms.Label HeartRate;
         private System.Windows.Forms.Label label_msg;
-        private System.Windows.Forms.Timer timerAttack;
+        protected System.Windows.Forms.Timer timerAttack;
     }
 }
 
